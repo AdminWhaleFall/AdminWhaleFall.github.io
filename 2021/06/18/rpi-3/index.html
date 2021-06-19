@@ -225,7 +225,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：3 分钟前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -278,7 +278,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">sudo nano /var/www/html/index.php <br></code></pre></div></td></tr></table></figure>
 
 <p>写入以下php代码并保存： </p>
-<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">&lt;?php <br>phpinfo(); <br></code></pre></div></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">&lt;?php phpinfo(); <br></code></pre></div></td></tr></table></figure>
 
 <p>在浏览器中输入树莓派的IP地址即可看到phpinfo:<br><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619152811.png" srcset="/img/loading.gif" lazyload></p>
 <h2 id="4-安装mariaDB数据库"><a href="#4-安装mariaDB数据库" class="headerlink" title="4.安装mariaDB数据库"></a><strong>4.安装mariaDB数据库</strong></h2><ul>
@@ -301,7 +301,7 @@
 <p>ERROR 1698 (28000): Access denied for user ‘root’@’localhost’</p>
 </blockquote>
 <p>原因: 数据库默认使用<strong>特权用户root登录</strong>，需要修改为<strong>普通用户使用密码登录</strong><br>-尝试用<strong>特权用户root</strong>登录数据库:</p>
-<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">sudo mysql -u root<br><span class="hljs-meta">#</span><span class="bash"> 登入数据库后，依次执行以下SQL：</span> <br>use mysql;<br>update user set plugin=&#x27;mysql_native_password&#x27;;<br>flush privileges;<br>exit;<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">sudo mysql -u root# 登入数据库后，依次执行以下SQL： use mysql;update user set plugin=&#x27;mysql_native_password&#x27;;flush privileges;exit;<br></code></pre></div></td></tr></table></figure>
 
 <p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619152818.png" srcset="/img/loading.gif" lazyload></p>
 <p>再次使用普通用户pi <code>mysql -u root -p</code> 即可通过密码登录数据库，无需root权限执行:</p>
@@ -309,7 +309,7 @@
 <ul>
 <li>设置<strong>数据库密码</strong><br><strong>依次执行以下SQL：</strong> </li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">use mysql;   <br>UPDATE <span class="hljs-keyword">user</span> <span class="hljs-keyword">SET</span> password<span class="hljs-operator">=</span>password(<span class="hljs-string">&#x27;123456&#x27;</span>) <span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">user</span><span class="hljs-operator">=</span><span class="hljs-string">&#x27;root&#x27;</span>;   <br>flush privileges;   <br>exit; <br></code></pre></div></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">use mysql;   UPDATE <span class="hljs-keyword">user</span> <span class="hljs-keyword">SET</span> password<span class="hljs-operator">=</span>password(<span class="hljs-string">&#x27;123456&#x27;</span>) <span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">user</span><span class="hljs-operator">=</span><span class="hljs-string">&#x27;root&#x27;</span>;   flush privileges;   exit; <br></code></pre></div></td></tr></table></figure>
 
 <ul>
 <li>设置<strong>mariaDB数据库</strong> <em><strong>外部网络访问权限</strong></em></li>
@@ -324,7 +324,7 @@
 <figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">User</span>,host <span class="hljs-keyword">from</span> mysql.user;<br></code></pre></div></td></tr></table></figure>
 
 <p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619152834.png" srcset="/img/loading.gif" lazyload><br><strong>root账户</strong>中的host项是<strong>localhost</strong>表示该账号只能进行<strong>本地登录</strong>，我们需要<strong>修改权限</strong>，执行MySQL命令:</p>
-<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">GRANT</span> <span class="hljs-keyword">ALL</span> PRIVILEGES <span class="hljs-keyword">ON</span> <span class="hljs-operator">*</span>.<span class="hljs-operator">*</span> <span class="hljs-keyword">TO</span> <span class="hljs-string">&#x27;root&#x27;</span>@<span class="hljs-string">&#x27;%&#x27;</span> IDENTIFIED <span class="hljs-keyword">BY</span> <span class="hljs-string">&#x27;123456&#x27;</span> <span class="hljs-keyword">WITH</span> <span class="hljs-keyword">GRANT</span> OPTION;<br>FLUSH PRIVILEGES;<br>exit;<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">GRANT</span> <span class="hljs-keyword">ALL</span> PRIVILEGES <span class="hljs-keyword">ON</span> <span class="hljs-operator">*</span>.<span class="hljs-operator">*</span> <span class="hljs-keyword">TO</span> <span class="hljs-string">&#x27;root&#x27;</span>@<span class="hljs-string">&#x27;%&#x27;</span> IDENTIFIED <span class="hljs-keyword">BY</span> <span class="hljs-string">&#x27;123456&#x27;</span> <span class="hljs-keyword">WITH</span> <span class="hljs-keyword">GRANT</span> OPTION;FLUSH PRIVILEGES;exit;<br></code></pre></div></td></tr></table></figure>
 
 <p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619152851.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
@@ -333,12 +333,12 @@
 <ul>
 <li><strong>mariadb配置文件</strong>保存在多个位置:</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">/etc/mysql/mariadb.cnf <br>/etc/mysql/mariadb.conf.d/ <br>/etc/mysql/conf.d/ <br></code></pre></div></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">/etc/mysql/mariadb.cnf /etc/mysql/mariadb.conf.d/ /etc/mysql/conf.d/ <br></code></pre></div></td></tr></table></figure>
 
 <ul>
 <li><strong>mariadb常用</strong>命令:</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">启动mariadb:</span> <br>sudo systemctl start mariadb <br><span class="hljs-meta">#</span><span class="bash">关闭/开启/重启 mariadb：</span><br>systemctl stop/start/restart mariadb <br><span class="hljs-meta">#</span><span class="bash">设置mariadb开机启动：</span><br>sudo systemctl enable mariadb <br></code></pre></div></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">启动mariadb: sudo systemctl start mariadb <span class="hljs-comment">#关闭/开启/重启 mariadb：systemctl stop/start/restart mariadb #设置mariadb开机启动：sudo systemctl enable mariadb</span></span> <br></code></pre></div></td></tr></table></figure>
 
 <ul>
 <li><strong>连接MySQL</strong>数据库命令:</li>
@@ -359,7 +359,7 @@
 <ul>
 <li><strong>解压zip格式</strong>源码包包到<strong>web目录</strong></li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">sudo chmod 777 -R /var/www/html/<br>unzip -d /var/www/html/ ~/phpMyAdmin-5.0.2-all-languages.zip <br></code></pre></div></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">sudo chmod 777 -R /var/www/html/unzip -d /var/www/html/ ~/phpMyAdmin-5.0.2-all-languages.zip <br></code></pre></div></td></tr></table></figure>
 
 <blockquote>
 <p>若unzip不受支持请安装<br><strong>sudo apt-get install unzip</strong></p>
@@ -367,7 +367,7 @@
 <ul>
 <li><strong>重命名文件夹并修改参数</strong></li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">cd /var/www/html/<br>mv phpMyAdmin-5.0.2-all-languages phpmyadmin<br>cd phpmyadmin<br>mv config.sample.inc.php config.inc.php<br>nano config.inc.php<br><span class="hljs-meta">$</span><span class="bash">cfg[<span class="hljs-string">&#x27;AllowArbitraryServer&#x27;</span>] = <span class="hljs-literal">true</span>;</span><br></code></pre></div></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">cd /var/www/html/mv phpMyAdmin-5.0.2-all-languages phpmyadmincd phpmyadminmv config.sample.inc.php config.inc.phpnano config.inc.php$cfg[&#x27;AllowArbitraryServer&#x27;] = true;<br></code></pre></div></td></tr></table></figure>
 
 <p>编辑<code>config.inc.php</code>文件，修改密钥字段:<br><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619152859.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
@@ -392,16 +392,16 @@
 </li>
 </ul>
 <p>找到<code>include</code>字段就是每个<strong>虚拟主机配置文件</strong>，为了方便管理，我们在<strong>用户家目录</strong>新建一个<code>nginx-conf</code>存放我们的<strong>nginx虚拟主机文件</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> 在配置文件插入</span><br>include /home/pi/nginx-conf/*;<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> 在配置文件插入include /home/pi/nginx-conf/*;</span><br></code></pre></div></td></tr></table></figure>
 
 <p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619152933.png" srcset="/img/loading.gif" lazyload alt="image-20200805160615360"></p>
-<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">mkdir /home/pi/nginx-conf<br>nano /home/pi/nginx-conf/kodbox.conf<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">mkdir /home/pi/nginx-confnano /home/pi/nginx-conf/kodbox.conf<br></code></pre></div></td></tr></table></figure>
 
 <p>写入以下内容:           <em><strong>(贴出一份完整的nginx虚拟主机配置，需要自行修改两个参数)</strong></em></p>
-<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> 监听端口 两个都要改</span><br>server &#123;<br>	listen 88 default_server;<br>	listen [::]:88 default_server;<br><span class="hljs-meta"></span><br><span class="hljs-meta">	#</span><span class="bash"> SSL configuration</span><br><span class="hljs-meta">	#</span><span class="bash"></span><br><span class="bash">	<span class="hljs-comment"># listen 443 ssl default_server;</span></span><br><span class="hljs-meta">	#</span><span class="bash"> listen [::]:443 ssl default_server;</span><br><span class="hljs-meta">	#</span><span class="bash"></span><br><span class="bash">	<span class="hljs-comment"># include snippets/snakeoil.conf;</span></span><br><br>	root /home/pi/kodbox; #网站根目录位置<br><span class="hljs-meta"></span><br><span class="hljs-meta">	#</span><span class="bash"> Add index.php to the list <span class="hljs-keyword">if</span> you are using PHP</span><br>	index index.php index.html index.htm index.nginx-debian.html;<br><br>	server_name _;<br><br>	location / &#123;<br>		try_files $uri $uri/ =404;<br>	&#125;<br><span class="hljs-meta"></span><br><span class="hljs-meta">	#</span><span class="bash"> pass PHP scripts to FastCGI server</span><br><span class="hljs-meta">	#</span><span class="bash"></span><br><span class="bash">	location ~ .*\.php(\/.*)*$ &#123;</span><br>		include snippets/fastcgi-php.conf;<br>		fastcgi_pass unix:/run/php/php7.3-fpm.sock;<br>	&#125;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> 监听端口 两个都要改server &#123;	listen 88 default_server;	listen [::]:88 default_server;	<span class="hljs-comment"># SSL configuration	#	# listen 443 ssl default_server;	# listen [::]:443 ssl default_server;	#	# include snippets/snakeoil.conf;	root /home/pi/kodbox; #网站根目录位置	# Add index.php to the list if you are using PHP	index index.php index.html index.htm index.nginx-debian.html;	server_name _;	location / &#123;		try_files $uri $uri/ =404;	&#125;	# pass PHP scripts to FastCGI server	#	location ~ .*\.php(\/.*)*$ &#123;		include snippets/fastcgi-php.conf;		fastcgi_pass unix:/run/php/php7.3-fpm.sock;	&#125;&#125;</span></span><br></code></pre></div></td></tr></table></figure>
 
 <p>重启<code>nginx</code>，愿一切安好:</p>
-<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">sudo systemctl restart nginx<br>wget --content-disposition https://packagecloud.io/headmelted/codebuilds/packages/debian/stretch/code-oss_1.45.0-1586135971_arm64.deb/download.deb<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">sudo systemctl restart nginxwget --content-disposition https://packagecloud.io/headmelted/codebuilds/packages/debian/stretch/code-oss_1.45.0-1586135971_arm64.deb/download.deb<br></code></pre></div></td></tr></table></figure>
 
 <h2 id="7-树莓派PHP调优"><a href="#7-树莓派PHP调优" class="headerlink" title="7. 树莓派PHP调优"></a>7. 树莓派<code>PHP</code>调优</h2><blockquote>
 <h4 id="lnmp默认环境部署完成后，进行调优以应对多并发，复杂任务的情景"><a href="#lnmp默认环境部署完成后，进行调优以应对多并发，复杂任务的情景" class="headerlink" title="lnmp默认环境部署完成后，进行调优以应对多并发，复杂任务的情景"></a><strong>lnmp默认环境</strong>部署完成后，进行调优以应对<strong>多并发，复杂任务的情景</strong></h4></blockquote>
@@ -413,7 +413,7 @@
 </blockquote>
 </li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">克隆项目到www目录</span><br>cd /var/www/html<br>wget https://github.com/kmvan/x-prober/raw/master/dist/prober.php<br><span class="hljs-meta"></span><br><span class="hljs-meta">#</span><span class="bash">删除默认页</span><br>rm index.php<br>mv prober.php index.php<br>sudo chmod 777 index.php<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">克隆项目到www目录<span class="hljs-built_in">cd</span> /var/www/htmlwget https://github.com/kmvan/x-prober/raw/master/dist/prober.php<span class="hljs-comment">#删除默认页rm index.phpmv prober.php index.phpsudo chmod 777 index.php</span></span><br></code></pre></div></td></tr></table></figure>
 
 <p><strong>尝试</strong>访问 <code>http://树莓派ip</code> :</p>
 <p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619152940.png" srcset="/img/loading.gif" lazyload alt="image-20200807132503823"></p>
@@ -437,7 +437,7 @@
 <p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619153007.png" srcset="/img/loading.gif" lazyload alt="image-20200807134107318"></p>
 <ul>
 <li><p>更改完成后重启 <code>nginx+php-fpm</code> </p>
-<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">max_input_time</span> = <span class="hljs-number">3600</span>;<br><span class="hljs-attribute">sudo</span> systemctl restart nginx<br><span class="hljs-attribute">sudo</span> systemctl restart php<span class="hljs-number">7</span>.<span class="hljs-number">3</span>-fpm<br></code></pre></div></td></tr></table></figure></li>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">max_input_time</span> = <span class="hljs-number">3600</span>;sudo systemctl restart nginxsudo systemctl restart php<span class="hljs-number">7</span>.<span class="hljs-number">3</span>-fpm<br></code></pre></div></td></tr></table></figure></li>
 </ul>
 <p><strong>更改后的探针页面</strong>：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619153012.png" srcset="/img/loading.gif" lazyload alt="image-20200807134706542"></p>
@@ -447,7 +447,7 @@
 <ul>
 <li><strong>下载源码</strong></li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">cd ~<br>mkdir kodbox<br>cd kodbox<br>wget http://static.kodcloud.com/update/download/kodbox.1.11.zip<br>unzip kodbox.1.11.zip<br>unzip kodbox.1.11.zip<br>rm kodbox.1.11.zip<br>chmod 777 ~/kodbox<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">cd ~mkdir kodboxcd kodboxwget http://static.kodcloud.com/update/download/kodbox.1.11.zipunzip kodbox.1.11.zipunzip kodbox.1.11.ziprm kodbox.1.11.zipchmod 777 ~/kodbox<br></code></pre></div></td></tr></table></figure>
 
 <p>尝试访问 <strong>http://树莓派ip:88</strong> :</p>
 <p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619153018.png" srcset="/img/loading.gif" lazyload alt="image-20200805163537543"></p>
@@ -464,7 +464,7 @@
 <p><strong>redis服务会自动运行自动添加开机启动项，省心！！！</strong></p>
 <p><strong>编辑</strong><code>sudo nano /etc/php/7.3/fpm/php.ini </code>文件加入：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619153032.png" srcset="/img/loading.gif" lazyload alt="image-20200807211906533"></p>
-<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">extension</span>=redis.so<br><br><span class="hljs-comment">#重启php-fpm</span><br><span class="hljs-attribute">sudo</span> systemctl restart php<span class="hljs-number">7</span>.<span class="hljs-number">3</span>-fpm <br></code></pre></div></td></tr></table></figure>
+<figure class="highlight ini"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ini"><span class="hljs-attr">extension</span>=redis.so<span class="hljs-comment">#重启php-fpmsudo systemctl restart php7.3-fpm </span><br></code></pre></div></td></tr></table></figure>
 
 <p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619153038.png" srcset="/img/loading.gif" lazyload alt="image-20200805164305612"></p>
 <blockquote>
