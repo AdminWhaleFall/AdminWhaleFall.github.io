@@ -56,7 +56,7 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"adminwhalefall.github.io","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"adminwhalefall.github.io","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
@@ -230,7 +230,7 @@
 <ul>
 <li><p>树莓派4B Debian10系统插上储存设备后默认自动挂载到  <code>/media</code> 目录我们先卸载U盘：</p>
 <p>查询硬盘状态:   <code>sudo fdisk -l</code> </p>
-<p><img src="https://i.loli.net/2021/06/18/SWVa13dgQuXnABN.png" srcset="/img/loading.gif" lazyload alt="image-20200805170808492"></p>
+<p><img src="https://i.loli.net/2021/06/18/SWVa13dgQuXnABN.png" alt="image-20200805170808492"></p>
 </li>
 </ul>
 <figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">sudo umount /media/pi/PI   #这里不能照抄命令，要根据实际情况更改 <br><span class="hljs-meta"></span><br><span class="hljs-meta">#</span><span class="bash">如果出现 target is busy 的情况，我们要强行结束U盘目录下的进程</span> <br>sudo fuser -mv -k /media/U盘 名字    # 然后再执行umount卸载命令 <br></code></pre></div></td></tr></table></figure>
@@ -242,7 +242,7 @@
 
 <ul>
 <li><p>重启 ，不出意外的话开机 应该 会自动挂载，且有写权限，用户是pi：如图挂载至 <code>/home/pi/disk</code> 目录，有<strong>777权限</strong></p>
-<p><img src="https://i.loli.net/2021/06/18/uzjGx15K6sITZmU.png" srcset="/img/loading.gif" lazyload alt="image-20200805171255078"></p>
+<p><img src="https://i.loli.net/2021/06/18/uzjGx15K6sITZmU.png" alt="image-20200805171255078"></p>
 </li>
 </ul>
 <h2 id="2-部署Aria2离线下载器"><a href="#2-部署Aria2离线下载器" class="headerlink" title="2.部署Aria2离线下载器"></a>2.部署Aria2离线下载器</h2><ul>
@@ -272,7 +272,7 @@
 <blockquote>
 <p>到<a target="_blank" rel="noopener" href="https://github.com/mayswind/AriaNg/releases"><strong>AriaNG</strong>开源项目页面</a> 获取最新版版本</p>
 </blockquote>
-<p><img src="https://i.loli.net/2021/06/18/RjSKp6m93UeOTYt.png" srcset="/img/loading.gif" lazyload alt="image-20200805172814711"></p>
+<p><img src="https://i.loli.net/2021/06/18/RjSKp6m93UeOTYt.png" alt="image-20200805172814711"></p>
 <p><strong>把源码克隆到</strong> <code>/website/AriaNg/</code>：</p>
 <figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">sudo mkdir /website<br>sudo chmod 777 -R /website<br>cd /website<br>mkdir AriaNg<br>cd AriaNg<br><span class="hljs-meta"></span><br><span class="hljs-meta">#</span><span class="bash">自己复制最新版链接</span><br>wget https://github.com/mayswind/AriaNg/releases/download/1.1.6/AriaNg-1.1.6.zip<br><span class="hljs-meta">#</span><span class="bash">祖国加速通道</span><br>wget https://gproxy.cn/https://github.com/mayswind/AriaNg/releases/download/1.1.6/AriaNg-1.1.6.zip<br><span class="hljs-meta">#</span><span class="bash">解压</span><br>unzip AriaNg-1.1.6.zip<br>rm AriaNg-1.1.6.zip<br><span class="hljs-meta">#</span><span class="bash">授权</span><br>sudo chmod 777 -R /website<br></code></pre></div></td></tr></table></figure></li>
 </ul>
@@ -284,10 +284,10 @@
 <ul>
 <li>尝试访问 <a target="_blank" rel="noopener" href="http://树莓派ip/aria2">http://树莓派ip/aria2</a> ，<strong>设置参数</strong></li>
 </ul>
-<p><img src="https://i.loli.net/2021/06/18/acIoJQe2RtZ7Pvw.png" srcset="/img/loading.gif" lazyload alt="image-20200805174335351"></p>
+<p><img src="https://i.loli.net/2021/06/18/acIoJQe2RtZ7Pvw.png" alt="image-20200805174335351"></p>
 <ul>
 <li><p>连接成功惹~</p>
-<p><img src="https://i.loli.net/2021/06/18/4Khd5ymu1Zx2sAB.png" srcset="/img/loading.gif" lazyload alt="image-20200805174434426"></p>
+<p><img src="https://i.loli.net/2021/06/18/4Khd5ymu1Zx2sAB.png" alt="image-20200805174434426"></p>
 </li>
 </ul>
 
@@ -343,7 +343,7 @@
 
             
               <!-- Comments -->
-              <article class="comments" id="comments" lazyload>
+              <article class="comments" id="comments">
                 
                   
                 
@@ -455,10 +455,6 @@
 
 <!-- Plugins -->
 
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
 
 
 
