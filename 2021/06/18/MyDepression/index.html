@@ -225,7 +225,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：29 分钟前
+                  本文最后更新于：31 分钟前
                 
               </p>
             
@@ -327,6 +327,32 @@
               
             </div>
 
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="waline"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#waline', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@waline/client@0.16.2/dist/Waline.min.js', function() {
+        var options = Object.assign(
+          {"serverURL":"https://my-blog-db.vercel.app/","placeholder":"总得要说点什么叭...","path":"window.location.pathname","avatar":"retro","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-CN","highlight":true,"avatarCDN":"","avatarForce":false,"requiredFields":[],"emojiCDN":null,"emojiMaps":null,"anonymous":null},
+          {
+            el: '#waline',
+            path: window.location.pathname
+          }
+        )
+        new Waline(options);
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
             
           </article>
         </div>
