@@ -173,7 +173,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.7k 字
+      1.5k 字
     </span>
   
 
@@ -183,7 +183,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      22
+      21
        分钟
     </span>
   
@@ -225,7 +225,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：12 小时前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -301,7 +301,7 @@
 <blockquote>
 <p>附:   vnc客户端下载<br><a target="_blank" rel="noopener" href="https://www.realvnc.com/en/connect/download/viewer/">vnc官网</a></p>
 </blockquote>
-<p>连接成功惹~:<br>![](E:\坚果云\我的坚果云\博客文章\😃树莓派折腾手册 (一)——准备系统 😃.assets\ZvFrkDqGp8tzQmL.png)<br>![](E:\坚果云\我的坚果云\博客文章\😃树莓派折腾手册 (一)——准备系统 😃.assets\4ZVirjY6xFQvBEf.png)<br>编辑 ./vnc/xstartup 配置文件使其能与windown共享剪贴板</p>
+<p>连接成功惹~:<br><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/rapi-1-4.png" srcset="/img/loading.gif" lazyload><br><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/rapi-1-5.png" srcset="/img/loading.gif" lazyload><br>编辑 ./vnc/xstartup 配置文件使其能与windown共享剪贴板</p>
 <figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">sudo nano .vnc/xstartup<br><span class="hljs-meta"></span><br><span class="hljs-meta">#</span><span class="bash">在后方追加</span><br>vncconfig -nowin -iconic &amp;<br><span class="hljs-meta">#</span><span class="bash">重启Tightvncserver</span><br>sudo service tightvncserver restart<br></code></pre></div></td></tr></table></figure>
 
 <h3 id="4-部署novnc网页"><a href="#4-部署novnc网页" class="headerlink" title="4.部署novnc网页 :"></a>4.部署<strong>novnc网页</strong> :</h3><blockquote>
@@ -325,9 +325,8 @@
 </ul>
 <figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">cd noVNC<br><span class="hljs-meta">#</span><span class="bash"> 初始化可能有点点慢</span><br>./utils/launch.sh --vnc localhost:5901 #监听5901 vnc端口<br></code></pre></div></td></tr></table></figure>
 
-<p>![](E:\坚果云\我的坚果云\博客文章\😃树莓派折腾手册 (一)——准备系统 😃.assets\lVvYX9xJCzdZh1G.png)</p>
-<ul>
-<li>尝试访问: <a target="_blank" rel="noopener" href="http://raspiberry:6080/">http://raspiberry:6080</a>  可<br>![](E:\坚果云\我的坚果云\博客文章\😃树莓派折腾手册 (一)——准备系统 😃.assets\x3QACSlkOc5ILbo.png)</li>
+<h1 id=""><a href="#" class="headerlink" title=""></a><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/rapi-1-6.png" srcset="/img/loading.gif" lazyload></h1><ul>
+<li>尝试访问: <a target="_blank" rel="noopener" href="http://raspiberry:6080/">http://raspiberry:6080</a>  可<br><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/rapi-1-3.png" srcset="/img/loading.gif" lazyload></li>
 <li>一些<strong>高级设置</strong> :</li>
 </ul>
 <figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">./utils/websockify --web ./ 8787 localhost:5901  #修改6080默认端口<br>./utils/websockify --web ./ 8787 192.168.1.10:5901 #可以讲localhost改成所有安装了vncserver的IP地址<br></code></pre></div></td></tr></table></figure>
@@ -356,13 +355,13 @@
 
 <ul>
 <li><p>页面</p>
-<p>![image-20200805174634421](E:\坚果云\我的坚果云\博客文章\😃树莓派折腾手册 (一)——准备系统 😃.assets\FPzVuqtxpj8oJ2B.png)</p>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/rapi-1-2.png" srcset="/img/loading.gif" lazyload alt="image-20200805174634421"></p>
 </li>
 </ul>
 <h2 id="Python设置"><a href="#Python设置" class="headerlink" title="Python设置"></a>Python设置</h2><h3 id="概况"><a href="#概况" class="headerlink" title="概况"></a>概况</h3><blockquote>
 <p>树莓派默认安装了两个版本的<strong>Python</strong></p>
 </blockquote>
-<p>![](E:\坚果云\我的坚果云\博客文章\😃树莓派折腾手册 (一)——准备系统 😃.assets\Zf5VQv1oUYApSq7.png)</p>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/rapi-1-1.png" srcset="/img/loading.gif" lazyload></p>
 <h3 id="树莓派pip换源"><a href="#树莓派pip换源" class="headerlink" title="树莓派pip换源"></a>树莓派pip换源</h3><blockquote>
 <p><strong>pip</strong>更换为<strong>国内源</strong>，可以大大的提高安装成功率和速度。不管你用的是<strong>pip3还是pip，方法都是一样的</strong></p>
 </blockquote>
