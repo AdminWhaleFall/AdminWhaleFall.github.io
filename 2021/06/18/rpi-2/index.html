@@ -173,7 +173,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      876 字
+      871 字
     </span>
   
 
@@ -225,7 +225,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：12 小时前
+                  本文最后更新于：5 分钟前
                 
               </p>
             
@@ -236,7 +236,7 @@
 <ul>
 <li><p>树莓派4B Debian10系统插上储存设备后默认自动挂载到  <code>/media</code> 目录我们先卸载U盘：</p>
 <p>查询硬盘状态:   <code>sudo fdisk -l</code> </p>
-<p><img src="https://i.loli.net/2021/06/18/SWVa13dgQuXnABN.png" srcset="/img/loading.gif" lazyload alt="image-20200805170808492"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619153119.png" srcset="/img/loading.gif" lazyload alt="9XBTemAzD6R8yot"></p>
 </li>
 </ul>
 <figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">sudo umount /media/pi/PI   #这里不能照抄命令，要根据实际情况更改 <br><span class="hljs-meta"></span><br><span class="hljs-meta">#</span><span class="bash">如果出现 target is busy 的情况，我们要强行结束U盘目录下的进程</span> <br>sudo fuser -mv -k /media/U盘 名字    # 然后再执行umount卸载命令 <br></code></pre></div></td></tr></table></figure>
@@ -248,7 +248,7 @@
 
 <ul>
 <li><p>重启 ，不出意外的话开机 应该 会自动挂载，且有写权限，用户是pi：如图挂载至 <code>/home/pi/disk</code> 目录，有<strong>777权限</strong></p>
-<p><img src="https://i.loli.net/2021/06/18/uzjGx15K6sITZmU.png" srcset="/img/loading.gif" lazyload alt="image-20200805171255078"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619153142.png" srcset="/img/loading.gif" lazyload alt="3ilg9S1UJ2EcHPV"></p>
 </li>
 </ul>
 <h2 id="2-部署Aria2离线下载器"><a href="#2-部署Aria2离线下载器" class="headerlink" title="2.部署Aria2离线下载器"></a>2.部署Aria2离线下载器</h2><ul>
@@ -278,7 +278,7 @@
 <blockquote>
 <p>到<a target="_blank" rel="noopener" href="https://github.com/mayswind/AriaNg/releases"><strong>AriaNG</strong>开源项目页面</a> 获取最新版版本</p>
 </blockquote>
-<p><img src="https://i.loli.net/2021/06/18/RjSKp6m93UeOTYt.png" srcset="/img/loading.gif" lazyload alt="image-20200805172814711"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619153158.png" srcset="/img/loading.gif" lazyload alt="UO7c5EItjBHRsgN"></p>
 <p><strong>把源码克隆到</strong> <code>/website/AriaNg/</code>：</p>
 <figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">sudo mkdir /website<br>sudo chmod 777 -R /website<br>cd /website<br>mkdir AriaNg<br>cd AriaNg<br><span class="hljs-meta"></span><br><span class="hljs-meta">#</span><span class="bash">自己复制最新版链接</span><br>wget https://github.com/mayswind/AriaNg/releases/download/1.1.6/AriaNg-1.1.6.zip<br><span class="hljs-meta">#</span><span class="bash">祖国加速通道</span><br>wget https://gproxy.cn/https://github.com/mayswind/AriaNg/releases/download/1.1.6/AriaNg-1.1.6.zip<br><span class="hljs-meta">#</span><span class="bash">解压</span><br>unzip AriaNg-1.1.6.zip<br>rm AriaNg-1.1.6.zip<br><span class="hljs-meta">#</span><span class="bash">授权</span><br>sudo chmod 777 -R /website<br></code></pre></div></td></tr></table></figure></li>
 </ul>
@@ -288,14 +288,12 @@
 <figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">修改nginx配置文件</span> <br>sudo nano /etc/nginx/sites-enabled/default<br><span class="hljs-meta"></span><br><span class="hljs-meta">#</span><span class="bash">添加配置aria2Ng</span> <br>location /aria2 &#123; <br>            alias /website/AriaNg/; <br>            index index.html; <br>    &#125; <br><span class="hljs-meta">#</span><span class="bash">代理jsonrpc</span> <br>location /jsonrpc &#123; <br>       proxy_pass http://localhost:6800/jsonrpc; <br>            proxy_redirect off; <br>            proxy_set_header        X-Real-IP       $remote_addr; <br>            proxy_set_header        X-Forwarded-For     $proxy_add_x_forwarded_for; <br>            proxy_set_header Host $host; <br>            #以下代码使支持WebSocket <br>            proxy_http_version 1.1; <br>            proxy_set_header Upgrade $http_upgrade; <br>            proxy_set_header Connection &quot;upgrade&quot;; <br>&#125; <br><span class="hljs-meta"></span><br><span class="hljs-meta">#</span><span class="bash">最后别忘记重启nginx</span> <br>sudo systemctl restart nginx <br></code></pre></div></td></tr></table></figure>
 
 <ul>
-<li>尝试访问 <a target="_blank" rel="noopener" href="http://树莓派ip/aria2">http://树莓派ip/aria2</a> ，<strong>设置参数</strong></li>
-</ul>
-<p><img src="https://i.loli.net/2021/06/18/acIoJQe2RtZ7Pvw.png" srcset="/img/loading.gif" lazyload alt="image-20200805174335351"></p>
-<ul>
-<li><p>连接成功惹~</p>
-<p><img src="https://i.loli.net/2021/06/18/4Khd5ymu1Zx2sAB.png" srcset="/img/loading.gif" lazyload alt="image-20200805174434426"></p>
+<li><p>尝试访问 <a target="_blank" rel="noopener" href="http://树莓派ip/aria2">http://树莓派ip/aria2</a> ，<strong>设置参数</strong></p>
+</li>
+<li><p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619153219.png" srcset="/img/loading.gif" lazyload alt="wNbqhBl7KWL6Jcx"></p>
 </li>
 </ul>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619153228.png" srcset="/img/loading.gif" lazyload alt="2o7a8c3qpFODP4Y"></p>
 
             </div>
             <hr>
@@ -332,15 +330,21 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/06/18/rapi-2/">
+                      <a href="/2021/06/18/hello-world/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">😜 树莓派折腾手册 (二)——手动搭建LNMP网站服务器环境 🙏</span>
+                        <span class="hidden-mobile">我的 Hexo 博客</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2021/06/18/rpi-3/">
+                        <span class="hidden-mobile">😜 树莓派折腾手册 (二)——手动搭建LNMP网站服务器环境 🙏</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>

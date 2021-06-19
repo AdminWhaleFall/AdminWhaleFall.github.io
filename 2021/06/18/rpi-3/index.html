@@ -225,7 +225,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：12 小时前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -271,7 +271,7 @@
 </ul>
 <figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">sudo systemctl restart nginx<br></code></pre></div></td></tr></table></figure>
 
-<p><strong>重启无报错则修改成功啦:</strong><br><img src="https://i.loli.net/2020/08/07/sDNMB9wcunblTEI.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>重启无报错则修改成功啦:</strong><br><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619152804.png" srcset="/img/loading.gif" lazyload></p>
 <ul>
 <li>在网站根目录创建一个php文件： </li>
 </ul>
@@ -280,7 +280,7 @@
 <p>写入以下php代码并保存： </p>
 <figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">&lt;?php <br>phpinfo(); <br></code></pre></div></td></tr></table></figure>
 
-<p>在浏览器中输入树莓派的IP地址即可看到phpinfo:<br><img src="https://i.loli.net/2020/08/07/qGzWefhotFpPVHd.png" srcset="/img/loading.gif" lazyload></p>
+<p>在浏览器中输入树莓派的IP地址即可看到phpinfo:<br><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619152811.png" srcset="/img/loading.gif" lazyload></p>
 <h2 id="4-安装mariaDB数据库"><a href="#4-安装mariaDB数据库" class="headerlink" title="4.安装mariaDB数据库"></a><strong>4.安装mariaDB数据库</strong></h2><ul>
 <li>使用以下命令安装<code>mariadb</code>: </li>
 </ul>
@@ -303,9 +303,9 @@
 <p>原因: 数据库默认使用<strong>特权用户root登录</strong>，需要修改为<strong>普通用户使用密码登录</strong><br>-尝试用<strong>特权用户root</strong>登录数据库:</p>
 <figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">sudo mysql -u root<br><span class="hljs-meta">#</span><span class="bash"> 登入数据库后，依次执行以下SQL：</span> <br>use mysql;<br>update user set plugin=&#x27;mysql_native_password&#x27;;<br>flush privileges;<br>exit;<br></code></pre></div></td></tr></table></figure>
 
-<p><img src="https://i.loli.net/2020/08/07/RHKBuLEMompv1Te.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619152818.png" srcset="/img/loading.gif" lazyload></p>
 <p>再次使用普通用户pi <code>mysql -u root -p</code> 即可通过密码登录数据库，无需root权限执行:</p>
-<p> <img src="https://i.loli.net/2020/08/07/wNt6MenIYRrdQVH.png" srcset="/img/loading.gif" lazyload></p>
+<p> <img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619152823.png" srcset="/img/loading.gif" lazyload></p>
 <ul>
 <li>设置<strong>数据库密码</strong><br><strong>依次执行以下SQL：</strong> </li>
 </ul>
@@ -318,15 +318,15 @@
 <p>根据官方的说法， MariaDB为了<strong>提高安全性</strong>，默认只监听127.0.0.1中的3306端口并且禁止了远程的TCP链接，我们可以通过下面两步来开启<strong>MySQL的远程服务</strong></p>
 </blockquote>
 <ol>
-<li>打开文件<code>sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf</code>，注释掉bind-address项，如下:<br><img src="https://i.loli.net/2020/08/07/cWAZ5R4vpHokElh.png" srcset="/img/loading.gif" lazyload></li>
+<li>打开文件<code>sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf</code>，注释掉bind-address项，如下:<br><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619152829.png" srcset="/img/loading.gif" lazyload></li>
 <li>开启了<strong>MySQL监听远程连接</strong>的选项，接下来需要给对应的<strong>MySQL账户分配权限</strong>，允许使用该账户<strong>远程连接</strong>到MySQL:<br>查看<strong>用户账号信息</strong>：</li>
 </ol>
 <figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">User</span>,host <span class="hljs-keyword">from</span> mysql.user;<br></code></pre></div></td></tr></table></figure>
 
-<p><img src="https://i.loli.net/2020/08/07/orquteiJOXxzpAm.png" srcset="/img/loading.gif" lazyload><br><strong>root账户</strong>中的host项是<strong>localhost</strong>表示该账号只能进行<strong>本地登录</strong>，我们需要<strong>修改权限</strong>，执行MySQL命令:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619152834.png" srcset="/img/loading.gif" lazyload><br><strong>root账户</strong>中的host项是<strong>localhost</strong>表示该账号只能进行<strong>本地登录</strong>，我们需要<strong>修改权限</strong>，执行MySQL命令:</p>
 <figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">GRANT</span> <span class="hljs-keyword">ALL</span> PRIVILEGES <span class="hljs-keyword">ON</span> <span class="hljs-operator">*</span>.<span class="hljs-operator">*</span> <span class="hljs-keyword">TO</span> <span class="hljs-string">&#x27;root&#x27;</span>@<span class="hljs-string">&#x27;%&#x27;</span> IDENTIFIED <span class="hljs-keyword">BY</span> <span class="hljs-string">&#x27;123456&#x27;</span> <span class="hljs-keyword">WITH</span> <span class="hljs-keyword">GRANT</span> OPTION;<br>FLUSH PRIVILEGES;<br>exit;<br></code></pre></div></td></tr></table></figure>
 
-<p><img src="https://i.loli.net/2020/08/07/sYj2EGOvSmfnuoQ.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619152851.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>这个时候发现相比之前<strong>多了一项</strong>，它的<strong>host项是%<strong>，这个时候说明配置成功了，我们可以用该账号进行</strong>远程访问</strong>了</p>
 </blockquote>
@@ -369,7 +369,7 @@
 </ul>
 <figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">cd /var/www/html/<br>mv phpMyAdmin-5.0.2-all-languages phpmyadmin<br>cd phpmyadmin<br>mv config.sample.inc.php config.inc.php<br>nano config.inc.php<br><span class="hljs-meta">$</span><span class="bash">cfg[<span class="hljs-string">&#x27;AllowArbitraryServer&#x27;</span>] = <span class="hljs-literal">true</span>;</span><br></code></pre></div></td></tr></table></figure>
 
-<p>编辑<code>config.inc.php</code>文件，修改密钥字段:<br><img src="https://i.loli.net/2020/08/07/MaTkKGbEPRsxWhO.png" srcset="/img/loading.gif" lazyload></p>
+<p>编辑<code>config.inc.php</code>文件，修改密钥字段:<br><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619152859.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>修改<strong>blowfish_secret</strong>字段，后面的密钥无仅仅用于加密而已，<strong>尽量足够长</strong>。<strong>当然偷偷插入<del>喜欢的女孩子</del>名字也是可以的哦</strong></p>
 </blockquote>
@@ -379,7 +379,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">sudo chmod 744 config.inc.php<br></code></pre></div></td></tr></table></figure>
 
 <ul>
-<li>尝试访问 http://你的树莓派ip/phpmyadmin<br><img src="https://i.loli.net/2020/08/07/Cf6wDKH9XbdxFS2.png" srcset="/img/loading.gif" lazyload><br><strong>启动高级功能</strong> 会新建一个phpmyadmin数据库<br><img src="https://i.loli.net/2020/08/07/lcEiFofW4GtnHr5.png" srcset="/img/loading.gif" lazyload><br><strong>安装成功！</strong><br><img src="https://i.loli.net/2020/08/07/MOpXhmLVNasyr9R.png" srcset="/img/loading.gif" lazyload></li>
+<li>尝试访问 http://你的树莓派ip/phpmyadmin<br><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619152752.png" srcset="/img/loading.gif" lazyload><br><strong>启动高级功能</strong> 会新建一个phpmyadmin数据库<br><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619152912.png" srcset="/img/loading.gif" lazyload><br><strong>安装成功！</strong><br><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619152920.png" srcset="/img/loading.gif" lazyload></li>
 </ul>
 <h2 id="6-搭建多个nginx虚拟主机"><a href="#6-搭建多个nginx虚拟主机" class="headerlink" title="6.搭建多个nginx虚拟主机"></a>6.搭建多个<code>nginx</code>虚拟主机</h2><blockquote>
 <p>有时候我们要在主机的<strong>不同端口</strong>搭建不同用处的<strong>web服务</strong>，这时就需要多个新建多个nginx虚拟主机的啦~</p>
@@ -388,13 +388,13 @@
 <li><p>打开<code>nginx</code>主配置文件</p>
 <figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">sudo nano /etc/nginx/nginx.conf<br></code></pre></div></td></tr></table></figure>
 
-<p><img src="https://i.loli.net/2020/08/07/BLdA1rc8D9pfYMI.png" srcset="/img/loading.gif" lazyload alt="image-20200805160257592"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619152925.png" srcset="/img/loading.gif" lazyload alt="image-20200805160257592"></p>
 </li>
 </ul>
 <p>找到<code>include</code>字段就是每个<strong>虚拟主机配置文件</strong>，为了方便管理，我们在<strong>用户家目录</strong>新建一个<code>nginx-conf</code>存放我们的<strong>nginx虚拟主机文件</strong></p>
 <figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> 在配置文件插入</span><br>include /home/pi/nginx-conf/*;<br></code></pre></div></td></tr></table></figure>
 
-<p><img src="https://i.loli.net/2020/08/07/AZYRo8Wg6lOQuzx.png" srcset="/img/loading.gif" lazyload alt="image-20200805160615360"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619152933.png" srcset="/img/loading.gif" lazyload alt="image-20200805160615360"></p>
 <figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">mkdir /home/pi/nginx-conf<br>nano /home/pi/nginx-conf/kodbox.conf<br></code></pre></div></td></tr></table></figure>
 
 <p>写入以下内容:           <em><strong>(贴出一份完整的nginx虚拟主机配置，需要自行修改两个参数)</strong></em></p>
@@ -416,7 +416,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">克隆项目到www目录</span><br>cd /var/www/html<br>wget https://github.com/kmvan/x-prober/raw/master/dist/prober.php<br><span class="hljs-meta"></span><br><span class="hljs-meta">#</span><span class="bash">删除默认页</span><br>rm index.php<br>mv prober.php index.php<br>sudo chmod 777 index.php<br></code></pre></div></td></tr></table></figure>
 
 <p><strong>尝试</strong>访问 <code>http://树莓派ip</code> :</p>
-<p><img src="https://i.loli.net/2020/08/07/Rhrl2aoTs4C1ZtO.png" srcset="/img/loading.gif" lazyload alt="image-20200807132503823"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619152940.png" srcset="/img/loading.gif" lazyload alt="image-20200807132503823"></p>
 <blockquote>
 <p>可以看到这些参数都是好   <strong>鸡肋的</strong></p>
 </blockquote>
@@ -426,21 +426,21 @@
 <figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">sudo nano /etc/php/7.3/fpm/php.ini<br></code></pre></div></td></tr></table></figure>
 
 <p>修改 <em><strong>post 方式提交的数据大小</strong></em>，查找：<code>post_max_size</code> <strong>酌情修改为2000M</strong></p>
-<p><img src="https://i.loli.net/2020/08/07/TWOAk4FqgzU13GV.png" srcset="/img/loading.gif" lazyload alt="image-20200807133234597"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619152945.png" srcset="/img/loading.gif" lazyload alt="image-20200807133234597"></p>
 <p>修改 <em><strong>运行超时秒数</strong></em> ，查找：<code>max_execution_time</code> <strong>酌情修改为3600s</strong></p>
-<p><img src="https://i.loli.net/2020/08/07/mrKJRyLSBv69p73.png" srcset="/img/loading.gif" lazyload alt="image-20200807133453326"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619152950.png" srcset="/img/loading.gif" lazyload alt="image-20200807133453326"></p>
 <p>修改 <em><strong>上传文件限制</strong></em> ，查找：<code>upload_max_filesize</code> <strong>酌情修改为2000M</strong></p>
-<p><img src="https://i.loli.net/2020/08/07/lTh37vMmrPytguH.png" srcset="/img/loading.gif" lazyload alt="image-20200807133741086"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619152956.png" srcset="/img/loading.gif" lazyload alt="image-20200807133741086"></p>
 <p>修改 <em><strong>运行内存限制</strong></em> ，查找：<code>memory_limit</code> <strong>酌情修改为2000M</strong></p>
-<p><img src="https://i.loli.net/2020/08/07/oVpkELiCMrv89JR.png" srcset="/img/loading.gif" lazyload alt="image-20200807133917750"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619153003.png" srcset="/img/loading.gif" lazyload alt="image-20200807133917750"></p>
 <p>开启 <em><strong>文件上传</strong></em>  ,查找：<code>file_uploads</code> 更改为<code>On</code></p>
-<p><img src="https://i.loli.net/2020/08/07/vTz4E5lBijKMVpd.png" srcset="/img/loading.gif" lazyload alt="image-20200807134107318"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619153007.png" srcset="/img/loading.gif" lazyload alt="image-20200807134107318"></p>
 <ul>
 <li><p>更改完成后重启 <code>nginx+php-fpm</code> </p>
 <figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">max_input_time</span> = <span class="hljs-number">3600</span>;<br><span class="hljs-attribute">sudo</span> systemctl restart nginx<br><span class="hljs-attribute">sudo</span> systemctl restart php<span class="hljs-number">7</span>.<span class="hljs-number">3</span>-fpm<br></code></pre></div></td></tr></table></figure></li>
 </ul>
 <p><strong>更改后的探针页面</strong>：</p>
-<p><img src="https://i.loli.net/2020/08/07/VphDCI1oWe3fmsX.png" srcset="/img/loading.gif" lazyload alt="image-20200807134706542"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619153012.png" srcset="/img/loading.gif" lazyload alt="image-20200807134706542"></p>
 <h2 id="8-搭建kodbox云私有云盘"><a href="#8-搭建kodbox云私有云盘" class="headerlink" title="8.搭建kodbox云私有云盘"></a>8.搭建<code>kodbox</code>云私有云盘</h2><blockquote>
 <h1 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h1><h4 id="即刻下载，开启私有云盘之旅"><a href="#即刻下载，开启私有云盘之旅" class="headerlink" title="即刻下载，开启私有云盘之旅"></a>即刻下载，开启私有云盘之旅</h4><p><strong>官网:<a target="_blank" rel="noopener" href="http://kodcloud.com/download/">可道云官网</a></strong></p>
 </blockquote>
@@ -450,7 +450,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">cd ~<br>mkdir kodbox<br>cd kodbox<br>wget http://static.kodcloud.com/update/download/kodbox.1.11.zip<br>unzip kodbox.1.11.zip<br>unzip kodbox.1.11.zip<br>rm kodbox.1.11.zip<br>chmod 777 ~/kodbox<br></code></pre></div></td></tr></table></figure>
 
 <p>尝试访问 <strong>http://树莓派ip:88</strong> :</p>
-<p><img src="https://i.loli.net/2020/08/07/jaXsuMytS52AKL6.png" srcset="/img/loading.gif" lazyload alt="image-20200805163537543"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619153018.png" srcset="/img/loading.gif" lazyload alt="image-20200805163537543"></p>
 <blockquote>
 <p>除了PHP版本外其他都可以通过哒~</p>
 </blockquote>
@@ -458,15 +458,15 @@
 <li><p>安装系统缓存<code>Redis</code></p>
 <figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros">sudo apt-<span class="hljs-builtin-name">get</span> install redis php-redis<br></code></pre></div></td></tr></table></figure>
 
-<p><img src="https://i.loli.net/2020/08/07/nZVATUYpmudfrQv.png" srcset="/img/loading.gif" lazyload alt="image-20200805164115135"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619153025.png" srcset="/img/loading.gif" lazyload alt="image-20200805164115135"></p>
 </li>
 </ul>
 <p><strong>redis服务会自动运行自动添加开机启动项，省心！！！</strong></p>
 <p><strong>编辑</strong><code>sudo nano /etc/php/7.3/fpm/php.ini </code>文件加入：</p>
-<p><img src="https://i.loli.net/2020/08/07/Ew6mLUoS8uKOxW2.png" srcset="/img/loading.gif" lazyload alt="image-20200807211906533"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619153032.png" srcset="/img/loading.gif" lazyload alt="image-20200807211906533"></p>
 <figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">extension</span>=redis.so<br><br><span class="hljs-comment">#重启php-fpm</span><br><span class="hljs-attribute">sudo</span> systemctl restart php<span class="hljs-number">7</span>.<span class="hljs-number">3</span>-fpm <br></code></pre></div></td></tr></table></figure>
 
-<p><img src="https://i.loli.net/2020/08/07/MjHZxvFoyVC6DSw.png" srcset="/img/loading.gif" lazyload alt="image-20200805164305612"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210619153038.png" srcset="/img/loading.gif" lazyload alt="image-20200805164305612"></p>
 <blockquote>
 <h4 id="数据库选择MySQL，填入自己的密码"><a href="#数据库选择MySQL，填入自己的密码" class="headerlink" title="数据库选择MySQL，填入自己的密码"></a>数据库选择<strong>MySQL</strong>，填入自己的密码</h4><h4 id="系统缓存类型选择Redis"><a href="#系统缓存类型选择Redis" class="headerlink" title="系统缓存类型选择Redis"></a>系统缓存类型选择Redis</h4></blockquote>
 
@@ -505,9 +505,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/06/18/rapi-1/">
+                      <a href="/2021/06/18/rpi-2/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">😃 树莓派折腾手册 (一)——准备系统 😃</span>
+                        <span class="hidden-mobile">😏 树莓派折腾手册（三）——搭建离线下载器 👀</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -515,8 +515,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/06/18/rapi-3/">
-                        <span class="hidden-mobile">😏 树莓派折腾手册（三）——搭建离线下载器 👀</span>
+                      <a href="/2020/08/07/rpi-1/">
+                        <span class="hidden-mobile"></span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
