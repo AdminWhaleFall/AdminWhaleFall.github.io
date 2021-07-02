@@ -173,7 +173,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      854 字
+      2.4k 字
     </span>
   
 
@@ -183,7 +183,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      10
+      31
        分钟
     </span>
   
@@ -296,13 +296,110 @@
 <blockquote>
 <p><strong>适合需要与某一个量一一对应建立联系</strong></p>
 </blockquote>
-<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> concurrent.futures <span class="hljs-keyword">import</span> ThreadPoolExecutor<br><span class="hljs-keyword">with</span> ThreadPoolExecutor() <span class="hljs-keyword">as</span> pool:<br>    futures = &#123;&#125;  <span class="hljs-comment"># 字典,便于一一对应</span><br>    <span class="hljs-comment"># htmls格式: ([],[],[],..)</span><br>    <span class="hljs-comment"># 遍历元组的每个列表,把列表中的两个参数赋值给 url,html</span><br>    <span class="hljs-keyword">for</span> url, html <span class="hljs-keyword">in</span> htmls:<br>        <span class="hljs-comment"># submwit 提交,传入方法名和单个参数</span><br>        future = pool.submit(parse, html)<br>        <span class="hljs-comment"># 使用字典 将 future 对象与链接一一对应</span><br>        futures[future] = url<br>    <br>    <span class="hljs-comment"># 将转化为元组的字典遍历出来</span><br>    <span class="hljs-comment"># future-&gt;线程对象 url-&gt;线程对应的url</span><br>    <span class="hljs-keyword">for</span> future,url <span class="hljs-keyword">in</span> futures.items():<br>        <span class="hljs-comment"># 线程对象通过 result 取出运行结果</span><br>        <span class="hljs-built_in">print</span>(url,future.result())<br></code></pre></div></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> concurrent.futures <span class="hljs-keyword">import</span> ThreadPoolExecutor<br><span class="hljs-keyword">with</span> ThreadPoolExecutor() <span class="hljs-keyword">as</span> pool:<br>    futures = &#123;&#125;  <span class="hljs-comment"># 字典,便于一一对应</span><br>    <span class="hljs-comment"># htmls格式: ([],[],[],..)</span><br>    <span class="hljs-comment"># 遍历元组的每个列表,把列表中的两个参数赋值给 url,html</span><br>    <span class="hljs-keyword">for</span> url, html <span class="hljs-keyword">in</span> htmls:<br>        <span class="hljs-comment"># submwit 提交,传入方法名和单个参数</span><br>        future = pool.submit(parse, html)<br>        <span class="hljs-comment"># 使用字典 将 future 对象与链接一一对应</span><br>        futures[future] = url<br>    <br>    <span class="hljs-comment"># 将转化为元组的字典遍历出来</span><br>    <span class="hljs-comment"># future-&gt;线程对象 url-&gt;线程对应的url</span><br>    <span class="hljs-keyword">for</span> future,url <span class="hljs-keyword">in</span> futures.items():<br>        <span class="hljs-comment"># 线程对象通过 result 取出运行结果</span><br>        <span class="hljs-built_in">print</span>(url,future.result())<br></code></pre></div></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h2 id="2-多进程-MultiProcess"><a href="#2-多进程-MultiProcess" class="headerlink" title="2. 多进程 (MultiProcess)"></a>2. 多进程 (MultiProcess)</h2><h3 id="全局解释器锁-Python的大缺点"><a href="#全局解释器锁-Python的大缺点" class="headerlink" title="全局解释器锁 (Python的大缺点)"></a>全局解释器锁 (Python的大缺点)</h3><ol>
+<li><strong>任何时刻仅有一个线程</strong>在执行。</li>
+<li>在<strong>多核心处理器上</strong>，使用 GIL 的解释器也只允许同一时间执行一个线程</li>
+<li>GIL目的：为了解决多线程之间<strong>数据完整性</strong>和状态同步问题</li>
+<li>GIL带来的<strong>问题</strong></li>
+</ol>
+<ul>
+<li>即使使用了多线程，同一时刻也只有<strong>单个线程使用CPU</strong>，导致多核CPU的浪费</li>
+<li>GIL只会对<strong>CPU密集型</strong>的程序产生影响</li>
+<li>如果程序主要是在做<strong>I/O操作</strong>，比如<strong>处理网络连接</strong>，那么<strong>多线程技术</strong>常常是一个明智的选择</li>
+</ul>
+<ol start="5">
+<li><strong>规避GIL</strong>的方法</li>
+</ol>
+<ul>
+<li>规避方法2： 使用<code>multiprocessing</code>多进程，对CPU密集型计算，单独启动子进程解释器去执行</li>
+<li>规避方法2： ﻿将计算密集型的任务转移到<strong>C语言</strong>中，因为C语言比Python快得多，注意要在C语言中自己释放GIL</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210701000441.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<h3 id="多进程适用于-CPU密集型计算"><a href="#多进程适用于-CPU密集型计算" class="headerlink" title="多进程适用于 CPU密集型计算"></a>多进程适用于 CPU密集型计算</h3><p>多进程的API与 <strong>多线程的实现十分类似</strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="left">语法条目</th>
+<th align="center">多线程</th>
+<th align="center">多进程</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">引入模块</td>
+<td align="center">from threading import Thread</td>
+<td align="center">from multiprocessing import Process</td>
+</tr>
+<tr>
+<td align="left">新建  启动  等待结束</td>
+<td align="center">t=Thread(target=func, args=(100, ))  t.start()  t.join()</td>
+<td align="center">p = Process(target=f, args=(‘bob’,))  p.start()  p.join()</td>
+</tr>
+<tr>
+<td align="left">数据通信</td>
+<td align="center">import queue  q = queue.Queue()  q.put(item)  item = q.get()</td>
+<td align="center">from multiprocessing import Queue  q = Queue()  q.put([42, None, ‘hello’])  item = q.get()</td>
+</tr>
+<tr>
+<td align="left">线程安全加锁</td>
+<td align="center">from threading import Lock  lock = Lock()  with lock:      # do something</td>
+<td align="center">from multiprocessing import Lock  lock = Lock()  with lock:      # do something</td>
+</tr>
+<tr>
+<td align="left">池化技术</td>
+<td align="center">from concurrent.futures import  ThreadPoolExecutor    with ThreadPoolExecutor() as executor:      # 方法1      results = executor.map(func, [1,2,3])        # 方法2      future = executor.submit(func, 1)      result = future.result()</td>
+<td align="center">from concurrent.futures import ProcessPoolExecutor    with ProcessPoolExecutor() as executor:      # 方法1      results = executor.map(func, [1,2,3])        # 方法2      future = executor.submit(func, 1)      result = future.result()</td>
+</tr>
+</tbody></table>
+<p><strong>利用进程池技术实现多进程</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> concurrent.futures <span class="hljs-keyword">import</span> ProcessPoolExecutor<br><span class="hljs-keyword">import</span> time<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">test</span>(<span class="hljs-params">lover</span>):</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;我喜欢:&quot;</span>, lover)<br>    time.sleep(<span class="hljs-number">1</span>)<br><br><span class="hljs-comment"># 任何池化技术都需要写程序入口</span><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-comment"># 喜欢的人列表</span><br>    lovers = [<span class="hljs-string">&quot;颖怡&quot;</span>, <span class="hljs-string">&quot;菲菲&quot;</span>, <span class="hljs-string">&quot;詹天佑&quot;</span>]<br>    start_time = time.time()<br>    <span class="hljs-comment"># 1. 使用 map 方式提交</span><br>    <span class="hljs-keyword">with</span> ProcessPoolExecutor(max_workers=<span class="hljs-number">10</span>) <span class="hljs-keyword">as</span> pool:<br>        <span class="hljs-comment"># map 方式提交进程池需要传入函数名和多参数元组</span><br>        pool.<span class="hljs-built_in">map</span>(test, lovers)<br><br>    <span class="hljs-comment"># 2. 使用 submit 方式提交</span><br>    <span class="hljs-keyword">with</span> ProcessPoolExecutor() <span class="hljs-keyword">as</span> pool:<br>        <span class="hljs-comment"># 利用进程列表启动</span><br>        futures=[<br>            pool.submit(test,lover)<br>            <span class="hljs-keyword">for</span> lover <span class="hljs-keyword">in</span> lovers<br>        ]<br><br>    end_time = time.time()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;cost Time:&quot;</span>, end_time-start_time)<br></code></pre></div></td></tr></table></figure>
 
-<p>…未完待续</p>
-</li>
+<h2 id="3-并发锁-Concurrent-Lock"><a href="#3-并发锁-Concurrent-Lock" class="headerlink" title="3. 并发锁 (Concurrent Lock)"></a>3. 并发锁 (Concurrent Lock)</h2><blockquote>
+<p><strong>线程安全</strong>指某个函数、函数库在<strong>多线程环境</strong>中被调用时，能够正确地处理多个线程之间的<strong>共享变量</strong>，使程序功能正确完成。</p>
+<p>由于<strong>线程的执行随时会发生切换</strong>，就造成了不可预料的结果，出现<strong>线程不安全</strong>(简单来说就是程序串行)</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210702130844.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> threading<br><span class="hljs-comment"># 实例化锁对象</span><br>lock = threading.Lock()<br><span class="hljs-comment"># 上锁</span><br>lock.locked()<br><span class="hljs-comment"># 释放锁</span><br>lock.release()<br></code></pre></div></td></tr></table></figure>
+
+<p>用法1:  <code>try-finally</code> 模式</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> threading<br>lock = threading.Lock()<br>lock.acquire()<br><span class="hljs-keyword">try</span>:<br>    <span class="hljs-comment"># do something</span><br><span class="hljs-keyword">finally</span>:<br>    lock.release()<br></code></pre></div></td></tr></table></figure>
+
+<p>用法2: <code>with</code> 模式  <strong>(推荐这种方式)</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> threading<br>lock = threading.Lock()<br><span class="hljs-keyword">with</span> lock:<br>    <span class="hljs-comment"># do something</span><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="什么时候需要上锁"><a href="#什么时候需要上锁" class="headerlink" title="什么时候需要上锁"></a>什么时候需要上锁</h3><blockquote>
+<p> <strong>多人读,不需要|一读一写要加|多人写要加</strong></p>
+</blockquote>
+<p>只是操作<strong>共享变量</strong>部分的代码要<strong>上锁</strong>,而不是多线程中所有代码都要上锁,并<strong>不影响多线程</strong>的执行效果.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210702143102.png" srcset="/img/loading.gif" lazyload alt="image-20210702143100587"></p>
+<h2 id="异步协程"><a href="#异步协程" class="headerlink" title="异步协程"></a>异步协程</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><blockquote>
+<p>同步：执行 IO 操作时，<strong>必须等待执行完成才得到返回结果</strong>。<br>异步：执行 IO 操作时，<strong>不必等待执行就能得到返回结果</strong>。</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210702150837.jpeg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/AdminWhaleFall/Pic@master/img/20210702143833.png" srcset="/img/loading.gif" lazyload alt="image-20210702143832079"></p>
+<blockquote>
+<p>注意：要用在<strong>异步IO编程中</strong>,依赖的<strong>库必须支持异步IO特性.</strong></p>
+<p>爬虫引用中：<code>requests</code> 不支持异步|需要用 <code>aiohttp</code></p>
+</blockquote>
+<h3 id="基本实现"><a href="#基本实现" class="headerlink" title="基本实现:"></a><strong>基本实现:</strong></h3><blockquote>
+<ul>
+<li>1, 在普通的函数前面加 <strong>async</strong> 关键字；</li>
+<li>2，<code>await</code> 表示在这个地方<strong>等待子函数执行完成</strong>，再往下执行。（在并发操作中，把程序控制权交给主程序，让他分配其他协程执行。） <code>await</code> 只能在带有 <code>async</code> 关键字的函数中运行。</li>
 </ul>
-</li>
-</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-comment"># 异步io简单实现</span><br><span class="hljs-keyword">import</span> asyncio<br><span class="hljs-keyword">import</span> time<br><span class="hljs-comment"># 获取超级事件循环</span><br><span class="hljs-comment"># event:事件 loop:环</span><br>loop = asyncio.get_event_loop()<br>urls = [<br>    <span class="hljs-string">f&quot;https://skyxinye.xyz/#<span class="hljs-subst">&#123;page&#125;</span>&quot;</span><br>    <span class="hljs-keyword">for</span> page <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">99</span>)<br>]<br><br><span class="hljs-comment"># 定义协程函数</span><br><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">myfunc</span>(<span class="hljs-params">url</span>):</span><br>    <span class="hljs-keyword">await</span> time.sleep(<span class="hljs-number">2</span>)<br><span class="hljs-comment"># 创建 task 列表</span><br><span class="hljs-comment"># create:创造</span><br>tasks = [<br>    <span class="hljs-comment"># 在超级循环中创造多个任务,并设置等待任务完成.(如果协程函数中没有同步操作的话就不用设置)</span><br>    <span class="hljs-comment"># 任务没有运行</span><br>    loop.create_task(asyncio.wait(myfunc(url)))<br>    <span class="hljs-keyword">for</span> url <span class="hljs-keyword">in</span> urls<br>]<br><span class="hljs-comment"># 执行异步事件列表,运行直到完成,也要设置等待事件完成.</span><br>loop.run_until_complete(asyncio.wait(tasks))<br></code></pre></div></td></tr></table></figure>
+
+<p>利用 <code>aiohttp</code> 模块发送网络请求</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-comment"># 异步模块 aiohttp 使用</span><br><span class="hljs-keyword">import</span> asyncio<br><span class="hljs-keyword">import</span> aiohttp<br><br><br><span class="hljs-comment"># Http请求 协程函数</span><br><span class="hljs-comment"># GET</span><br><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">async_get</span>(<span class="hljs-params">url</span>):</span><br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    aiohttp:发送http请求</span><br><span class="hljs-string">    1.创建一个ClientSession对象</span><br><span class="hljs-string">    2.通过ClientSession对象去发送请求（get, post, delete等）</span><br><span class="hljs-string">    3.await 异步等待返回结果</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Get Url:&quot;</span>, url)<br>    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> aiohttp.ClientSession() <span class="hljs-keyword">as</span> se:<br>        <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> se.get(url) <span class="hljs-keyword">as</span> resp:<br>            result = <span class="hljs-keyword">await</span> resp.text()<br>            <span class="hljs-built_in">print</span>(<span class="hljs-built_in">len</span>(result))<br><br>urls = [<br>    <span class="hljs-string">f&quot;https://skyxinye.xyz/#<span class="hljs-subst">&#123;page&#125;</span>&quot;</span><br>    <span class="hljs-keyword">for</span> page <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">99999</span>)<br>]<br><br><span class="hljs-comment"># 超级循环</span><br>loop = asyncio.get_event_loop()<br><span class="hljs-comment"># 事件列表</span><br>tasks=[<br>    loop.create_task(async_get(url))<br>    <span class="hljs-keyword">for</span> url <span class="hljs-keyword">in</span> urls <br>]<br><span class="hljs-comment"># 用 wait 方法遍历事件列表.运行至结束</span><br>loop.run_until_complete(asyncio.wait(tasks))<br><br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    异步协程不用事件列表的另一种实现方法</span><br><span class="hljs-string">    aiohttp:发送POST请求</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-comment"># POST</span><br><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>():</span><br>    data = &#123;<span class="hljs-string">&#x27;key1&#x27;</span>: <span class="hljs-string">&#x27;value1&#x27;</span>, <span class="hljs-string">&#x27;key2&#x27;</span>: <span class="hljs-string">&#x27;value2&#x27;</span>&#125;<br>    url = <span class="hljs-string">&#x27;http://httpbin.org/post&#x27;</span><br>    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> aiohttp.ClientSession() <span class="hljs-keyword">as</span> session:<br>        <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> session.post(url, data=data) <span class="hljs-keyword">as</span> res:<br>            <span class="hljs-built_in">print</span>(res.status)<br>            <span class="hljs-built_in">print</span>(<span class="hljs-keyword">await</span> res.text())<br>loop = asyncio.get_event_loop()<br>task = loop.create_task(main())<br>loop.run_until_complete(task)<br></code></pre></div></td></tr></table></figure>
+
+<p>利用 <code>aiofile</code> 异步操作文件</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> asyncio.tasks <span class="hljs-keyword">import</span> wait<br><span class="hljs-keyword">import</span> aiofiles<br><span class="hljs-keyword">import</span> asyncio<br><br><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">write</span>():</span><br>    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> aiofiles.<span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;test.txt&quot;</span>,<span class="hljs-string">&quot;w&quot;</span>,encoding=<span class="hljs-string">&quot;utf8&quot;</span>) <span class="hljs-keyword">as</span> fp:<br>        <span class="hljs-keyword">await</span> fp.write(<span class="hljs-string">&quot;异步写入文件&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;文件写入成功&quot;</span>)<br><br><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">read</span>():</span><br>    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> aiofiles.<span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;test.txt&quot;</span>,<span class="hljs-string">&quot;r&quot;</span>,encoding=<span class="hljs-string">&quot;utf8&quot;</span>) <span class="hljs-keyword">as</span> fp:<br>        content = <span class="hljs-keyword">await</span> fp.read()<br>        <span class="hljs-built_in">print</span>(content)<br><br><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">read2_demo</span>():</span><br>    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> aiofiles.<span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;text.txt&quot;</span>,<span class="hljs-string">&quot;r&quot;</span>,encoding=<span class="hljs-string">&quot;utf-8&quot;</span>) <span class="hljs-keyword">as</span> fp:<br>        <span class="hljs-comment"># 读取每行</span><br>        <span class="hljs-keyword">async</span> <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> fp:<br>            <span class="hljs-built_in">print</span>(line)<br><br><span class="hljs-keyword">if</span> __name__==<span class="hljs-string">&quot;__main__&quot;</span>:<br>    asyncio.run(write())<br></code></pre></div></td></tr></table></figure>
+
 
             </div>
             <hr>
